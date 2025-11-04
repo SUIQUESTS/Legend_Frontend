@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Legends - Sui Blockchain Challenge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mysten/dapp-kit@^0.18.0/dist/index.css"> -->
+
+    
+    <style>
+      @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+        100% { transform: translateY(0px); }
+      }
+
+      @keyframes sparkle {
+        0%, 100% { transform: scale(0); opacity: 0; }
+        50% { transform: scale(1); opacity: 1; }
+        100% { transform: scale(0); opacity: 0; }
+      }
+
+      @keyframes aurora {
+        from {
+            background-position: 0% 50%;
+        }
+        to {
+            background-position: 100% 50%;
+        }
+      }
+
+      @keyframes confetti-burst {
+        0% {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(var(--confetti-x), var(--confetti-y)) scale(0);
+          opacity: 0;
+        }
+      }
+
+      @keyframes content-fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slide-in-fade {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes modal-fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes modal-slide-up {
+        from { transform: translateY(30px) scale(0.95); opacity: 0; }
+        to { transform: translateY(0) scale(1); opacity: 1; }
+      }
+
+      @keyframes toast-in {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes toast-out {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+      
+      body {
+        scroll-behavior: smooth;
+        cursor: none;
+      }
+      
+      .custom-cursor {
+        position: fixed;
+        left: -10px;
+        top: -10px;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.15s ease-out, opacity 0.3s ease-out;
+        will-change: transform;
+      }
+      .custom-cursor .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #00f5ff;
+        box-shadow: 0 0 10px #00f5ff, 0 0 20px #00f5ff;
+        transition: transform 0.2s ease-out, background-color 0.2s ease-out;
+      }
+      .custom-cursor.hovering .dot {
+        transform: scale(4);
+        background-color: rgba(0, 245, 255, 0.3);
+      }
+
+      .confetti {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        border-radius: 2px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, -50%); /* Start at center */
+      }
+      .group:hover .confetti {
+        animation: confetti-burst 0.7s cubic-bezier(0.1, 0.8, 0.7, 1) forwards;
+      }
+    </style>
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              background: '#0A0D14', // Near-black for depth
+              surface: '#11151E', // Slightly lighter for cards and surfaces
+              border: 'rgba(255, 255, 255, 0.1)', // Subtle borders
+              primary: '#E0E5F3', // Off-white for primary text (readability)
+              secondary: '#8A94A7', // Muted gray for secondary text
+              
+              // Landing page accents (kept for landing page only)
+              'lp-accent': '#00f5ff', 
+              'lp-accent-soft': '#00ffcc',
+
+              // Dashboard accent (the new single accent color)
+              accent: '#387BFF', // Electric Blue
+              
+              // Remove old dashboard colors
+              // 'accent-primary': '#d946ef',
+              // 'accent-secondary': '#22d3ee',
+              // 'highlight': '#f59e0b', 
+              
+              'surface-dark': '#0A0D14', // Same as background for consistency
+            },
+            fontFamily: {
+              sans: ['Exo 2', 'sans-serif'],
+              heading: ['Orbitron', 'sans-serif'],
+            },
+            boxShadow: {
+                'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1)',
+                'glow-accent': '0 0 25px -5px rgba(56, 123, 255, 0.6)', // Updated glow to new accent color
+                'glow-lp-accent': '0 0 25px -5px rgba(0, 255, 204, 0.6)', // Landing page glow
+            },
+            animation: {
+              'float': 'float 6s ease-in-out infinite',
+              'aurora': 'aurora 20s infinite linear',
+              'sparkle': 'sparkle 1s ease-in-out infinite',
+              'content-fade-in': 'content-fade-in 0.5s ease-out forwards',
+              'slide-in-fade': 'slide-in-fade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
+              'modal-fade-in': 'modal-fade-in 0.3s ease-out forwards',
+              'modal-slide-up': 'modal-slide-up 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
+              'toast-in': 'toast-in 0.5s cubic-bezier(0.21, 1.02, 0.73, 1) forwards',
+              'toast-out': 'toast-out 0.5s cubic-bezier(0.21, 1.02, 0.73, 1) forwards',
+            },
+            backgroundImage: {
+               'grid-pattern': 'linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px)',
+            },
+             backgroundSize: {
+                'grid-size': '32px 32px',
+            }
+          }
+        }
+      }
+    </script>
+    <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@tanstack/react-query": "https://aistudiocdn.com/@tanstack/react-query@^5.90.6",
+    "@mysten/sui/": "https://aistudiocdn.com/@mysten/sui@^1.44.0/",
+    "@mysten/dapp-kit": "https://aistudiocdn.com/@mysten/dapp-kit@^0.19.0",
+    "@mysten/dapp-kit/": "https://aistudiocdn.com/@mysten/dapp-kit@^0.19.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.552.0",
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-background text-primary font-sans">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
