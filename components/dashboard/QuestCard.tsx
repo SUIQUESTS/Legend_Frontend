@@ -2,7 +2,7 @@ import React from 'react';
 import Tooltip from '../Tooltip';
 
 export interface Quest {
-    id: number;
+    id: string; 
     title: string;
     category: string;
     progress?: number;
@@ -16,6 +16,7 @@ export interface Quest {
         image: string;
         points: number;
     };
+    description?: string;
 }
 
 interface QuestCardProps {

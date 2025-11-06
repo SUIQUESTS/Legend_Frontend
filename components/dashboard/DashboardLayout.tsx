@@ -63,7 +63,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ username, onLogout, a
             case 'Quests':
                 return <LiveQuestsPage username={username} addToast={addToast} />;
             case 'Create Quest':
-                return <CreateQuestPage />;
+                return <CreateQuestPage onNavigate={navigateTo} addToast={addToast} />;
             case 'My Quests':
                 return <MyQuestsPage username={username} onNavigate={navigateTo} />;
             case 'Submissions':

@@ -1,10 +1,18 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import NFTSelector, { NFT } from './NFTSelector';
+import { ToastType } from '../../hooks/useToast';
 import QuestPreviewCard from './QuestPreviewCard';
 import { SuiClient, getFullnodeUrl } from "@mysten/sui/client";
+import { useCurrentAccount } from '@mysten/dapp-kit';
+import axios from 'axios';
 
 const provider = new SuiClient({ url: getFullnodeUrl('testnet') });
 
+interface CreateQuestPageProps {
+    onNavigate: (pageName: string, params?: Record<string, any>) => void;
+    addToast: (message: string, type?: ToastType) => void;
+    
+}
 
 
 // Enhanced input components with character counters and better styling
@@ -52,7 +60,8 @@ const FormTextarea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement> &
 );
 
 
-const CreateQuestPage: React.FC = () => {
+
+const CreateQuestPage: React.FC<CreateQuestPageProps> = ({ onNavigate, addToast }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [participantLimit, setParticipantLimit] = useState<number | ''>(50);
@@ -61,6 +70,7 @@ const CreateQuestPage: React.FC = () => {
     const [selectedNft, setSelectedNft] = useState<NFT | null>(null);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [nfts, setNfts] = useState([]);
+    const currentAccount = useCurrentAccount();
     const owner = "0xd85b63bd1d19a39d29539c6a512d2a8a04ae3ad3d1c756346fb937722d3a7c05";
 
     const handleUnlimitedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,6 +122,8 @@ const CreateQuestPage: React.FC = () => {
     getAllNFTs();
     }, [owner]);
 
+    // console.log("Available NFTs:", nfts);
+
 
     
     const validateForm = () => {
@@ -134,19 +146,29 @@ const CreateQuestPage: React.FC = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (validateForm()) {
-            const questData = {
-                title,
-                description,
-                participant_limit: isUnlimited ? 'unlimited' : participantLimit,
-                deadline,
-                nft_id: selectedNft?.id,
-            };
-            console.log("Creating Quest:", questData);
-            // Here you would typically send the data to a server
-            alert('Quest created successfully! (Check console for data)');
+            try {
+                const questData = {
+                    creator: currentAccount?.address || '',
+                    title,
+                    description,
+                    participant_limit: isUnlimited ? 'unlimited' : participantLimit,
+                    deadline,
+                    nft_id: selectedNft?.id,
+                    status: 'active',
+                };
+                console.log("Creating Quest:", questData);
+                const { data } = await axios.post('https://legendbackend-a29sm.sevalla.app/api/challenges/create', questData);
+                console.log("Server Response:", data);
+                addToast(`Quest created successfully!`);
+                onNavigate('Quests');
+                // alert('Quest created successfully! (Check console for data)');
+            } catch (error) {
+                console.error("Error creating quest:", error);
+                alert('Failed to create quest. Please try again.');
+            }
         }
     };
     

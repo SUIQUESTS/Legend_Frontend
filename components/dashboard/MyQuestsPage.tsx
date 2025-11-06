@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MyQuestCard from './MyQuestCard';
 import { Quest } from './QuestCard';
 import { PlusCircleIcon } from '../icons';
+import { SuiClient, getFullnodeUrl } from "@mysten/sui/client";
+import { NFT } from './NFTSelector';
+import axios from 'axios';
+
+
+const provider = new SuiClient({ url: getFullnodeUrl('testnet') });
+
 
 const allQuestsData: Quest[] = [
-  { id: 1, title: "Master the Sui SDK", difficulty: "Hard", category: "Development", participants: 12, nftBadge: { name: "Sui Sovereign", image: "https://picsum.photos/seed/nft1/64", points: 500 }, creator: '@DevWizard', status: 'Live', winner: null },
-  { id: 2, title: "Create a Viral Meme", difficulty: "Easy", category: "Community", participants: 88, nftBadge: { name: "Meme Maestro", image: "https://picsum.photos/seed/nft2/64", points: 50 }, creator: '@MemeLord', status: 'Live', winner: null },
-  { id: 3, title: "Design a Legendary NFT", difficulty: "Medium", category: "Art", participants: 34, nftBadge: { name: "Pixel Paladin", image: "https://picsum.photos/seed/nft3/64", points: 250 }, creator: '@CyberGlory', status: 'Live', winner: null },
-  { id: 4, title: "Write a Sui Tutorial", difficulty: "Medium", category: "Content", participants: 21, nftBadge: { name: "Scroll Scribe", image: "https://picsum.photos/seed/nft4/64", points: 200 }, creator: '@CyberGlory', status: 'Live', winner: null },
-  { id: 5, title: "Build a DeFi dApp", difficulty: "Hard", category: "Development", participants: 5, nftBadge: { name: "DeFi Demigod", image: "https://picsum.photos/seed/nft5/64", points: 1000 }, creator: '@DevWizard', status: 'Live', winner: null },
-  { id: 6, title: "Host a Community Workshop", difficulty: "Medium", category: "Community", participants: 45, nftBadge: { name: "Community Sage", image: "https://picsum.photos/seed/nft6/64", points: 300 }, creator: '@CyberGlory', status: 'Live', winner: null },
-  { id: 7, title: "Pixel Art Sprite Contest", difficulty: "Easy", category: "Art", participants: 150, nftBadge: { name: "Sprite Sorcerer", image: "https://picsum.photos/seed/nft7/64", points: 75 }, creator: '@Artisan', status: 'Completed', winner: '@SuiSeeker' },
-  { id: 8, title: "Translate Documentation", difficulty: "Easy", category: "Content", participants: 30, nftBadge: { name: "Lingua Legend", image: "https://picsum.photos/seed/nft8/64", points: 100 }, creator: '@CyberGlory', status: 'Live', winner: null },
-  { id: 9, title: "Smart Contract Audit Challenge", difficulty: "Hard", category: "Development", participants: 8, nftBadge: { name: "Code Guardian", image: "https://picsum.photos/seed/nft9/64", points: 1200 }, creator: '@DevWizard', status: 'Judging', winner: null },
-  { id: 10, title: "Create a 'Why Sui?' Video", difficulty: "Medium", category: "Content", participants: 25, nftBadge: { name: "Sui Evangelist", image: "https://picsum.photos/seed/nft10/64", points: 220 }, creator: '@MemeLord', status: 'Live', winner: null },
-  { id: 11, title: "On-chain Generative Art", difficulty: "Hard", category: "Art", participants: 15, nftBadge: { name: "Chain Artist", image: "https://picsum.photos/seed/nft11/64", points: 800 }, creator: '@Artisan', status: 'Live', winner: null },
-  { id: 12, title: "Organize a Twitter Space", difficulty: "Easy", category: "Community", participants: 60, nftBadge: { name: "Social Sovereign", image: "https://picsum.photos/seed/nft12/64", points: 90 }, creator: '@CyberGlory', status: 'Completed', winner: '@QuestKing' },
+  { id: "1", title: "Master the Sui SDK", difficulty: "Hard", category: "Development", participants: 12, nftBadge: { name: "Sui Sovereign", image: "https://picsum.photos/seed/nft1/64", points: 500 }, creator: '@DevWizard', status: 'Live', winner: null },
+  { id: "2", title: "Create a Viral Meme", difficulty: "Easy", category: "Community", participants: 88, nftBadge: { name: "Meme Maestro", image: "https://picsum.photos/seed/nft2/64", points: 50 }, creator: '@MemeLord', status: 'Live', winner: null },
+  { id: "3", title: "Design a Legendary NFT", difficulty: "Medium", category: "Art", participants: 34, nftBadge: { name: "Pixel Paladin", image: "https://picsum.photos/seed/nft3/64", points: 250 }, creator: '@CyberGlory', status: 'Live', winner: null },
+  { id: "4", title: "Write a Sui Tutorial", difficulty: "Medium", category: "Content", participants: 21, nftBadge: { name: "Scroll Scribe", image: "https://picsum.photos/seed/nft4/64", points: 200 }, creator: '@CyberGlory', status: 'Live', winner: null },
+  { id: "5", title: "Build a DeFi dApp", difficulty: "Hard", category: "Development", participants: 5, nftBadge: { name: "DeFi Demigod", image: "https://picsum.photos/seed/nft5/64", points: 1000 }, creator: '@DevWizard', status: 'Live', winner: null },
+  { id: "6", title: "Host a Community Workshop", difficulty: "Medium", category: "Community", participants: 45, nftBadge: { name: "Community Sage", image: "https://picsum.photos/seed/nft6/64", points: 300 }, creator: '@CyberGlory', status: 'Live', winner: null },
+  { id: "7", title: "Pixel Art Sprite Contest", difficulty: "Easy", category: "Art", participants: 150, nftBadge: { name: "Sprite Sorcerer", image: "https://picsum.photos/seed/nft7/64", points: 75 }, creator: '@Artisan', status: 'Completed', winner: '@SuiSeeker' },
+  { id: "8", title: "Translate Documentation", difficulty: "Easy", category: "Content", participants: 30, nftBadge: { name: "Lingua Legend", image: "https://picsum.photos/seed/nft8/64", points: 100 }, creator: '@CyberGlory', status: 'Live', winner: null },
 ];
 
 // Mock submissions data
@@ -45,6 +48,64 @@ const MyQuestsPage: React.FC<MyQuestsPageProps> = ({ username, onNavigate }) => 
     // Ensure consistent matching.
     const currentUser = `@${username}`; 
     const myQuests = allQuestsData.filter(q => q.creator === currentUser);
+    const [nfts, setNfts] = useState([]);
+    const [quests, setQuests] = useState([]);
+    const owner = "0xd85b63bd1d19a39d29539c6a512d2a8a04ae3ad3d1c756346fb937722d3a7c05";
+
+
+
+        useEffect(() => {
+            async function getAllQuests() {
+                try {
+                    const { data } = await axios.get('https://legendbackend-a29sm.sevalla.app/api/challenges/getall');
+                    console.log("Quests Data:", data);
+                    setQuests(data)
+                } catch (error) {
+                    console.error("Error fetching quests data:", error);
+                }
+            }
+            async function getAllNFTs() {
+                const packageId = "0xedf2c6c215b787828e9a05b0d07b9b2309fe573d23e0812ab1ceb489debc5742";
+                try {
+                const objects = await provider.getOwnedObjects({
+                    owner: owner,
+                    options: {
+                    showType: true,
+                    showContent: true,
+                    },
+                });
+        
+                // Transform the NFT data to match our NFT interface
+                const transformedNfts = objects.data
+                    .filter((object) => object.data?.type?.includes(`${packageId}::nft::NFT`))
+                    .map((object) => {
+                    // Check if content exists and has the moveObject dataType
+                    if (object.data?.content && 'fields' in object.data.content) {
+                        const fields = (object.data.content as any).fields;
+                        return {
+                        id: object.data.objectId,
+                        name: fields?.title || 'Unnamed NFT',
+                        image: fields?.image || '',
+                        points: parseInt(fields?.points || '0')
+                        };
+                    }
+                    return null;
+                    })
+                    .filter((nft): nft is NFT => nft !== null && nft.image && nft.name);
+        
+                    setNfts(transformedNfts.filter((nft, index) => index !== 3));
+                } catch (error) {
+                    console.error("Error fetching NFTs:", error);
+                }
+            }
+        
+            getAllNFTs();
+            
+        }, [owner]);
+
+
+        
+
 
     return (
         <div style={{ fontFamily: "helvetica" }} className="p-4 sm:p-8 space-y-8 animate-content-fade-in">
