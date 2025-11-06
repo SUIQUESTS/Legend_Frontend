@@ -1,6 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import NFTSelector, { NFT } from './NFTSelector';
 import QuestPreviewCard from './QuestPreviewCard';
+import { SuiClient, getFullnodeUrl } from "@mysten/sui/client";
+
+const provider = new SuiClient({ url: getFullnodeUrl('testnet') });
+
+
 
 // Enhanced input components with character counters and better styling
 const FormInput: React.FC<React.InputHTMLAttributes<HTMLInputElement> & { label: string; error?: string }> = ({ label, id, error, value, maxLength, ...props }) => (
@@ -55,6 +60,8 @@ const CreateQuestPage: React.FC = () => {
     const [deadline, setDeadline] = useState('');
     const [selectedNft, setSelectedNft] = useState<NFT | null>(null);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [nfts, setNfts] = useState([]);
+    const owner = "0xd85b63bd1d19a39d29539c6a512d2a8a04ae3ad3d1c756346fb937722d3a7c05";
 
     const handleUnlimitedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIsUnlimited(e.target.checked);
@@ -65,6 +72,47 @@ const CreateQuestPage: React.FC = () => {
             setParticipantLimit(50); // Reset to default
         }
     };
+
+    useEffect(() => {
+    async function getAllNFTs() {
+        const packageId = "0xedf2c6c215b787828e9a05b0d07b9b2309fe573d23e0812ab1ceb489debc5742";
+        try {
+        const objects = await provider.getOwnedObjects({
+            owner: owner,
+            options: {
+            showType: true,
+            showContent: true,
+            },
+        });
+
+        // Transform the NFT data to match our NFT interface
+        const transformedNfts = objects.data
+            .filter((object) => object.data?.type?.includes(`${packageId}::nft::NFT`))
+            .map((object) => {
+            // Check if content exists and has the moveObject dataType
+            if (object.data?.content && 'fields' in object.data.content) {
+                const fields = (object.data.content as any).fields;
+                return {
+                id: object.data.objectId,
+                name: fields?.title || 'Unnamed NFT',
+                image: fields?.image || '',
+                points: parseInt(fields?.points || '0')
+                };
+            }
+            return null;
+            })
+            .filter((nft): nft is NFT => nft !== null && nft.image && nft.name);
+
+            setNfts(transformedNfts.filter((nft, index) => index !== 3));
+        } catch (error) {
+        console.error("Error fetching NFTs:", error);
+        }
+    }
+    
+    getAllNFTs();
+    }, [owner]);
+
+
     
     const validateForm = () => {
         const newErrors: { [key: string]: string } = {};
@@ -187,10 +235,14 @@ const CreateQuestPage: React.FC = () => {
                 </div>
                 
                 {/* NFT Selection Section */}
-                <section className="opacity-0 animate-slide-in-fade" style={{ animationDelay: '400ms' }}>
+=                <section className="opacity-0 animate-slide-in-fade" style={{ animationDelay: '400ms' }}>
                     <h2 className="text-2xl font-bold font-heading text-primary mb-6">Select Reward NFT</h2>
-                     {errors.nft && <p className="text-red-500 text-sm mb-4 animate-content-fade-in">{errors.nft}</p>}
-                    <NFTSelector selectedNftId={selectedNft?.id || null} onSelectNft={setSelectedNft} />
+                    {errors.nft && <p className="text-red-500 text-sm mb-4 animate-content-fade-in">{errors.nft}</p>}
+                    <NFTSelector 
+                        nfts={nfts}
+                        selectedNftId={selectedNft?.id || null} 
+                        onSelectNft={setSelectedNft} 
+                    />
                 </section>
                 
                 {/* Submission Button */}

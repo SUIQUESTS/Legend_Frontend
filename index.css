@@ -1,0 +1,30 @@
+/* Add this to your main CSS file or create a new dark-theme.css */
+:root {
+  --dk-connect-bg: #0A0D14;
+  --dk-connect-text: #E0E5F3;
+  --dk-connect-primary: #387BFF;
+  --dk-connect-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Override dApp Kit modal styles */
+[data-radix-portal] div[role="dialog"] {
+  background: var(--dk-connect-bg) !important;
+  color: var(--dk-connect-text) !important;
+  border: 1px solid var(--dk-connect-border) !important;
+}
+
+[data-radix-portal] button {
+  background: var(--dk-connect-primary) !important;
+  color: white !important;
+  border: none !important;
+}
+
+[data-radix-portal] button:hover {
+  opacity: 0.9 !important;
+}
+
+[data-radix-portal] [class*="card"],
+[data-radix-portal] [class*="container"] {
+  background: var(--dk-connect-bg) !important;
+  border-color: var(--dk-connect-border) !important;
+}

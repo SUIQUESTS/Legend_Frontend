@@ -5,6 +5,8 @@ import { createNetworkConfig, SuiClientProvider, WalletProvider } from "@mysten/
 import { getFullnodeUrl } from "@mysten/sui/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "@mysten/dapp-kit/dist/index.css";
+import "@radix-ui/themes/styles.css";
+import { Theme } from "@radix-ui/themes";
 
 
 const { networkConfig } = createNetworkConfig({
@@ -24,12 +26,14 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
+    {/* <Theme name="dark"> */}
+        <QueryClientProvider client={queryClient}>
           <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">
               <WalletProvider autoConnect>
                   <App />
               </WalletProvider>
           </SuiClientProvider>
       </QueryClientProvider>
+      {/* </Theme> */}
    </React.StrictMode>
 );

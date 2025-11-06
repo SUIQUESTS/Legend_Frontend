@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import CustomCursor from './components/CustomCursor';
 import DashboardLayout from './components/dashboard/DashboardLayout';
@@ -11,26 +12,15 @@ type ViewState = 'landing' | 'profile_creation' | 'dashboard';
 interface UserData {
   id: string;
   walletAddress: string;
-  username: string;
-  createdAt: string;
-  updatedAt: string;
+  name: string;
+  score: number;
 }
 
 const App: React.FC = () => {
   const [viewState, setViewState] = useState<ViewState>('landing');
-  const [currentView, setCurrentView] = useState<ViewState>('landing');
   const [username, setUsername] = useState<string | null>(null);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [userData, setUserData] = useState<UserData | null>(null);
-
-  const handleNavigateToProfile = () => {
-    setCurrentView('profile_creation');
-  };
-
-  const handleNavigateToDashboard = (userData: UserData) => {
-    setUserData(userData);
-    setCurrentView('dashboard');
-  };
 
   useEffect(() => {
     // Check for existing user on initial load
@@ -49,6 +39,19 @@ const App: React.FC = () => {
     setToasts(prevToasts => prevToasts.filter(toast => toast.id !== id));
   }, []);
 
+  const handleNavigateToProfile = () => {
+    console.log('Navigating to profile creation');
+    setViewState('profile_creation');
+  };
+
+  const handleNavigateToDashboard = (userData: UserData) => {
+    console.log('Navigating to dashboard with user:', userData);
+    setUserData(userData);
+    setUsername(userData.name);
+    localStorage.setItem('username', userData.name);
+    setViewState('dashboard');
+  };
+
   const handleEnter = () => {
     if (username) {
       setViewState('dashboard');
@@ -57,28 +60,42 @@ const App: React.FC = () => {
     }
   };
 
-  const handleProfileCreated = (newUsername: string) => {
-    localStorage.setItem('username', newUsername);
-    setUsername(newUsername);
+  const handleProfileCreated = (userData: UserData) => {
+    setUserData(userData);
+    setUsername(userData.name);
+    localStorage.setItem('username', userData.name);
     setViewState('dashboard');
   };
 
   const handleLogout = () => {
     localStorage.removeItem('username');
     setUsername(null);
+    setUserData(null);
     setViewState('landing');
   };
 
   const renderContent = () => {
     switch(viewState) {
       case 'landing':
-        return <LandingPage onEnter={handleEnter} />;
+        return (
+          <LandingPage 
+            onEnter={handleEnter} 
+            onNavigateToProfile={handleNavigateToProfile}
+            onNavigateToDashboard={handleNavigateToDashboard}
+          />
+        );
       case 'profile_creation':
         return <ProfileCreation onProfileCreated={handleProfileCreated} />;
       case 'dashboard':
         return <DashboardLayout username={username!} onLogout={handleLogout} addToast={addToast} />;
       default:
-        return <LandingPage onEnter={handleEnter} />;
+        return (
+          <LandingPage 
+            onEnter={handleEnter} 
+            onNavigateToProfile={handleNavigateToProfile}
+            onNavigateToDashboard={handleNavigateToDashboard}
+          />
+        );
     }
   }
 

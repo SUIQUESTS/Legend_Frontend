@@ -67,13 +67,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ username, onLogout, a
             case 'My Quests':
                 return <MyQuestsPage username={username} onNavigate={navigateTo} />;
             case 'Submissions':
-                 return <QuestSubmissionsPage questId={activePage.params?.questId} onNavigate={navigateTo} addToast={addToast} />;
+                return <QuestSubmissionsPage questId={activePage.params?.questId} onNavigate={navigateTo} addToast={addToast} />;
             case 'Achievements':
-                return <AchievementsPage />;
+                return <AchievementsPage onNavigate={navigateTo} />;
             case 'Leaderboard':
                 return <LeaderboardPage />;
             case 'Settings':
-                 return <PlaceholderComponent title="Settings" />;
+                return <PlaceholderComponent title="Settings" />;
             default:
                 return <DashboardHome />;
         }
