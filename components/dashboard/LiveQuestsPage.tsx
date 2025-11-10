@@ -50,7 +50,7 @@ const LiveQuestsPage: React.FC<LiveQuestsPageProps> = ({ username, addToast }) =
         try {
             setIsLoading(true);
             const { data } = await axios.get('https://legendbackend-a29sm.sevalla.app/api/challenges/getall');
-            setQuests(data.filter((quest) => quest.creator !== currentAccount?.address));
+            setQuests(data.filter((quest) => quest.creator !== currentAccount?.address && quest.status === 'active'));
         } catch (error) {
             console.error("Error fetching quests data:", error);
             addToast('Failed to load quests', 'error');
@@ -109,7 +109,8 @@ const LiveQuestsPage: React.FC<LiveQuestsPageProps> = ({ username, addToast }) =
             .filter(apiQuest => !hasUserSubmitted(apiQuest))
             .map((apiQuest, index) => {
                 const matchingNft = nfts.find(nft => nft.id === apiQuest.nft_id);
-                
+                console.log('Matching NFT for quest', apiQuest.title, ':', nfts);
+
                 let status: 'Live' | 'Judging' | 'Completed' = 'Live';
                 if (apiQuest.status === 'completed') status = 'Completed';
                 else if (apiQuest.status === 'judging') status = 'Judging';
