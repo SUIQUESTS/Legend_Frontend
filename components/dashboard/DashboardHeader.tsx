@@ -3,16 +3,28 @@ import { SearchIcon, BellIcon, ChevronDownIcon } from '../icons';
 import Tooltip from '../Tooltip';
 import NotificationPanel from './NotificationPanel';
 import { Notification } from './DashboardLayout';
+import axios from 'axios';
+import { useCurrentAccount } from '@mysten/dapp-kit';
 
 interface DashboardHeaderProps {
     username: string;
     notifications: Notification[];
     onClearNotifications: () => void;
+    onDeleteNotification: (notificationId: string) => void;
+    onLoadNotifications: () => void;
 }
 
-const DashboardHeader: React.FC<DashboardHeaderProps> = ({ username, notifications, onClearNotifications }) => {
+const DashboardHeader: React.FC<DashboardHeaderProps> = ({ 
+    username, 
+    notifications, 
+    onClearNotifications, 
+    onDeleteNotification,
+    onLoadNotifications 
+}) => {
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+    const [isLoadingNotifications, setIsLoadingNotifications] = useState(false);
     const notificationRef = useRef<HTMLDivElement>(null);
+    const currentAccount = useCurrentAccount();
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -25,6 +37,19 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ username, notificatio
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+    // Load notifications when notification panel opens
+    const handleNotificationClick = async () => {
+        if (!isNotificationsOpen && currentAccount?.address) {
+            setIsLoadingNotifications(true);
+            try {
+                await onLoadNotifications();
+            } finally {
+                setIsLoadingNotifications(false);
+            }
+        }
+        setIsNotificationsOpen(prev => !prev);
+    };
 
     return (
         <header className="flex-shrink-0 h-20 flex items-center justify-between px-8 border-b border-border bg-background/50 backdrop-blur-sm z-20">
@@ -45,11 +70,12 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ username, notificatio
                 <div ref={notificationRef} className="relative">
                     <Tooltip content="Notifications" position="bottom">
                         <button 
-                            onClick={() => setIsNotificationsOpen(prev => !prev)} 
+                            onClick={handleNotificationClick} 
                             className="relative p-2 rounded-full hover:bg-surface transition-colors" 
                             aria-label="Notifications"
+                            disabled={isLoadingNotifications}
                         >
-                            <BellIcon className="w-6 h-6 text-secondary" />
+                            <BellIcon className={`w-6 h-6 text-secondary ${isLoadingNotifications ? 'animate-pulse' : ''}`} />
                             {notifications.length > 0 && (
                                 <span className="absolute top-1 right-1 min-w-[1rem] h-4 px-1 text-xs font-bold text-primary bg-red-500 rounded-full flex items-center justify-center border-2 border-background">
                                     {notifications.length}
@@ -61,6 +87,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ username, notificatio
                         <NotificationPanel
                             notifications={notifications}
                             onClearAll={onClearNotifications}
+                            onDeleteNotification={onDeleteNotification}
+                            isLoading={isLoadingNotifications}
                         />
                     )}
                 </div>

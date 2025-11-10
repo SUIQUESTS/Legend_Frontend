@@ -11,8 +11,6 @@ import { SuiClient, getFullnodeUrl } from "@mysten/sui/client";
 
 const provider = new SuiClient({ url: getFullnodeUrl('testnet') });
 
-
-
 interface ApiSubmission {
     _id: string;
     challenge: string;
@@ -60,44 +58,42 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
     const [nfts, setNfts] = useState<NFT[]>([]);
     const owner = "0xd85b63bd1d19a39d29539c6a512d2a8a04ae3ad3d1c756346fb937722d3a7c05";
 
-
-
-        useEffect(() => {
-            async function getAllNFTs() {
-                const packageId = "0xedf2c6c215b787828e9a05b0d07b9b2309fe573d23e0812ab1ceb489debc5742";
-                try {
-                    const objects = await provider.getOwnedObjects({
-                        owner: owner,
-                        options: {
-                            showType: true,
-                            showContent: true,
-                        },
-                    });
-            
-                    const transformedNfts = objects.data
-                        .filter((object) => object.data?.type?.includes(`${packageId}::nft::NFT`))
-                        .map((object) => {
-                            if (object.data?.content && 'fields' in object.data.content) {
-                                const fields = (object.data.content as any).fields;
-                                return {
-                                    id: object.data.objectId,
-                                    name: fields?.title || 'Unnamed NFT',
-                                    image: fields?.image || '',
-                                    points: parseInt(fields?.points || '0')
-                                };
-                            }
-                            return null;
-                        })
-                        .filter((nft): nft is NFT => nft !== null && nft.image && nft.name);
-            
-                    setNfts(transformedNfts.filter((nft, index) => index !== 3));
-                } catch (error) {
-                    console.error("Error fetching NFTs:", error);
-                }
+    useEffect(() => {
+        async function getAllNFTs() {
+            const packageId = "0xedf2c6c215b787828e9a05b0d07b9b2309fe573d23e0812ab1ceb489debc5742";
+            try {
+                const objects = await provider.getOwnedObjects({
+                    owner: owner,
+                    options: {
+                        showType: true,
+                        showContent: true,
+                    },
+                });
+        
+                const transformedNfts = objects.data
+                    .filter((object) => object.data?.type?.includes(`${packageId}::nft::NFT`))
+                    .map((object) => {
+                        if (object.data?.content && 'fields' in object.data.content) {
+                            const fields = (object.data.content as any).fields;
+                            return {
+                                id: object.data.objectId,
+                                name: fields?.title || 'Unnamed NFT',
+                                image: fields?.image || '',
+                                points: parseInt(fields?.points || '0')
+                            };
+                        }
+                        return null;
+                    })
+                    .filter((nft): nft is NFT => nft !== null && nft.image && nft.name);
+        
+                setNfts(transformedNfts.filter((nft, index) => index !== 3));
+            } catch (error) {
+                console.error("Error fetching NFTs:", error);
             }
-            
-            getAllNFTs();
-        }, [owner]);
+        }
+        
+        getAllNFTs();
+    }, [owner]);
 
     // Fetch quest details and submissions
     useEffect(() => {
@@ -217,6 +213,42 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
         }
     };
 
+    // Create notification for the winner
+    const createWinnerNotification = async (): Promise<boolean> => {
+        if (!winner || !quest) return false;
+
+        try {
+            const matchingNft = nfts.find(nft => nft.id === quest.nft_id);
+            const points = matchingNft?.points || 100;
+
+            const notificationPayload = {
+                userAddress: winner.participant_address,
+                type: "challenge_win",
+                title: "Congratulations!",
+                message: `You just won the '${quest.title}' and earned ${points} points.`
+            };
+
+            console.log("Creating notification for winner:", notificationPayload);
+
+            const response = await axios.post(
+                'https://legendbackend-a29sm.sevalla.app/api/notifications/create/',
+                notificationPayload
+            );
+
+            if (response.status === 200 || response.status === 201) {
+                console.log("Notification created successfully:", response.data);
+                addToast('Winner notification sent!', 'success');
+                return true;
+            }
+            return false;
+        } catch (error: any) {
+            console.error('Error creating notification:', error);
+            // Don't show error toast for notification failure - it shouldn't block the main flow
+            console.log('Notification creation failed, but continuing with winner selection');
+            return false; // Return false but don't block the main flow
+        }
+    };
+
     // Select winner and complete quest via API
     const selectWinnerAndCompleteQuest = async (): Promise<boolean> => {
         if (!winner || !quest) return false;
@@ -229,9 +261,9 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
                 winnerAddress: winner.participant_address,
                 nftDetails: {
                     nft_id: quest.nft_id,
-                    title: matchingNft.name,
-                    image: matchingNft.image,
-                    points: matchingNft.points
+                    title: matchingNft?.name || 'Quest Badge',
+                    image: matchingNft?.image || 'https://picsum.photos/seed/nft/64',
+                    points: matchingNft?.points || 100
                 }
             };
 
@@ -260,10 +292,14 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
         
         setIsSelectingWinner(true);
         try {
+            // Step 1: Select winner and complete quest
             const success = await selectWinnerAndCompleteQuest();
             
             if (success) {
-                // Navigate back to My Quests after a short delay
+                // Step 2: Create notification for the winner (non-blocking)
+                await createWinnerNotification();
+                
+                // Step 3: Navigate back to My Quests after a short delay
                 setTimeout(() => {
                     onNavigate('My Quests');
                 }, 1500);
@@ -417,7 +453,7 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
                                         <p className="text-xs text-secondary">Congratulations!</p>
                                     </div>
                                 </div>
-                                <Tooltip content="This will select the winner and award the NFT through the backend system.">
+                                <Tooltip content="This will select the winner, award the NFT, and notify the winner.">
                                     <button 
                                         onClick={handleSelectWinnerAndComplete}
                                         disabled={isSelectingWinner}
