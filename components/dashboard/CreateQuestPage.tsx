@@ -159,14 +159,14 @@ const CreateQuestPage: React.FC<CreateQuestPageProps> = ({ onNavigate, addToast 
                     nft_id: selectedNft?.id,
                     status: 'active',
                 };
-                console.log("Creating Quest:", questData);
+                // console.log("Creating Quest:", questData);
                 const { data } = await axios.post('https://legendbackend-a29sm.sevalla.app/api/challenges/create', questData);
-                console.log("Server Response:", data);
+                // console.log("Server Response:", data);
                 addToast(`Quest created successfully!`);
                 onNavigate('Quests');
                 // alert('Quest created successfully! (Check console for data)');
             } catch (error) {
-                console.error("Error creating quest:", error);
+                // console.error("Error creating quest:", error);
                 alert('Failed to create quest. Please try again.');
             }
         }

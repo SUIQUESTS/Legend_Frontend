@@ -90,7 +90,7 @@ const Header: React.FC<HeaderProps> = ({
       </header>
       
       {/* Mobile Menu Panel */}
-      <div className={`fixed inset-0 bg-background/95 backdrop-blur-lg z-40 transform transition-transform duration-500 ease-in-out md:hidden ${isMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
+      <div style={{ fontFamily: "helvetica" }} className={`fixed inset-0 bg-background/95 backdrop-blur-lg z-40 transform transition-transform duration-500 ease-in-out md:hidden ${isMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="container mx-auto px-6 h-full flex flex-col items-center justify-center text-primary">
           <nav className="flex flex-col items-center gap-8 text-center">
             <NavLink href="#how-it-works" onClick={closeMenu} isMobile>How It Works</NavLink>
@@ -101,7 +101,7 @@ const Header: React.FC<HeaderProps> = ({
           <div className="mt-12">
             <button
                 onClick={handleEnterClick}
-                className="relative overflow-hidden font-semibold text-xl px-10 py-4 bg-lp-accent-soft text-background rounded-lg hover:bg-lp-accent focus:outline-none focus:ring-4 focus:ring-lp-accent-soft/50 transition-all duration-300 transform hover:scale-105"
+                className="relative overflow-hidden font-semibold text-xl px-10 py-4 bg-lp-accent-soft text-background rounded-lg hover:bg-lp-accent focus:outline-none focus:ring-4 focus:ring-lp-accent-soft/50 transition-all duration-300 transform hover:scale-105 bg-[#00f5ff]"
             >
                 <span className="relative z-10">Enter Arena</span>
                 <span className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-black/20 to-transparent pointer-events-none"></span>

@@ -80,7 +80,7 @@ const NotificationPanel: React.FC<NotificationPanelProps> = ({
     };
 
     return (
-        <div style={{ fontFamily: "helvetica" }} className="absolute top-full right-0 mt-3 w-80 max-w-sm bg-surface/80 backdrop-blur-lg border border-border rounded-xl shadow-2xl z-50 animate-content-fade-in origin-top-right">
+        <div style={{ fontFamily: "helvetica" }} className="absolute top-full right-0 mt-3 w-80 max-w-sm bg-surface/80 backdrop-blur-lg border border-border rounded-xl shadow-2xl z-50 animate-content-fade-in origin-top-right sm:w-72 sm:mt-2">
             <div className="flex justify-between items-center p-4 border-b border-border">
                 <h3 className="font-bold font-heading text-primary">Notifications</h3>
                 <button
@@ -91,7 +91,7 @@ const NotificationPanel: React.FC<NotificationPanelProps> = ({
                     Clear All
                 </button>
             </div>
-            <div className="max-h-96 overflow-y-auto">
+            <div className="max-h-96 overflow-y-auto sm:max-h-80">
                 {isLoading ? (
                     <div className="p-10 text-center">
                         <LoaderIcon className="w-6 h-6 mx-auto animate-spin text-secondary mb-2" />

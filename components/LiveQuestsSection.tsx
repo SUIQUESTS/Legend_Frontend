@@ -71,19 +71,19 @@ const QuestCard: React.FC<{ quest: typeof questsData[0]; index: number; isVisibl
             }}
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_250px_at_var(--x)_var(--y),_rgba(0,245,255,0.15),_transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20"></div>
-          <div className="p-6 relative z-10">
+          <div className="p-5 sm:p-6 relative z-10">
             <div style={{  fontFamily: "helvetica" }} className="flex justify-between items-start mb-4">
                 <span className="text-xs font-bold uppercase tracking-widest text-accent-soft">{quest.category}</span>
                 <span className={`px-2 py-1 text-xs font-semibold rounded-full ${difficultyColor[quest.difficulty]}`}>{quest.difficulty}</span>
             </div>
-            <h3 className="text-xl font-bold font-heading text-primary mb-2">{quest.title}</h3>
+            <h3 className="text-lg sm:text-xl font-bold font-heading text-primary mb-2">{quest.title}</h3>
             
             <div style={{  fontFamily: "helvetica" }} className="flex justify-between items-center bg-surface-dark p-3 rounded-lg my-4">
                 <div className="flex items-center gap-3">
                     <img src={quest.nftBadge.image} alt={quest.nftBadge.name} className="w-10 h-10 rounded-md object-cover border-2 border-accent-soft/30" />
                     <div>
                         <p className="text-xs text-secondary">NFT Badge</p>
-                        <p className="font-bold text-accent-soft">{quest.nftBadge.name}</p>
+                        <p className="font-bold text-accent-soft text-sm sm:text-base">{quest.nftBadge.name}</p>
                     </div>
                 </div>
                 <div className="text-right">
@@ -98,7 +98,7 @@ const QuestCard: React.FC<{ quest: typeof questsData[0]; index: number; isVisibl
             <div className="w-full bg-surface-dark rounded-full h-2 mb-6 overflow-hidden">
                 <div className="bg-accent h-full rounded-full transition-all duration-500 group-hover:bg-accent-soft" style={{ width: `${(quest.participants / 100) * 100}%` }}></div>
             </div>
-            <button style={{  fontFamily: "helvetica" }} className="w-full text-center py-2 font-bold bg-accent text-background rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-glow-accent focus:outline-none focus:ring-4 focus:ring-accent/50">
+            <button style={{  fontFamily: "helvetica" }} className="w-full text-center py-2 font-bold bg-accent text-background rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-glow-accent focus:outline-none focus:ring-4 focus:ring-accent/50 text-sm sm:text-base">
                 Join Quest
             </button>
           </div>
@@ -111,15 +111,15 @@ const LiveQuestsSection: React.FC = () => {
     const [sectionRef, isSectionVisible] = useOnScreen<HTMLElement>({ threshold: 0.2, triggerOnce: true });
     
     return (
-        <section ref={sectionRef} id="quests" className="py-20 md:py-28 overflow-hidden bg-background">
+        <section ref={sectionRef} id="quests" className="py-16 sm:py-20 md:py-28 overflow-hidden bg-background">
             <div className="container mx-auto px-6">
                  <div 
-                    className={`text-center mb-16 transition-all duration-700 ${isSectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                    className={`text-center mb-12 sm:mb-16 transition-all duration-700 ${isSectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold font-heading text-primary uppercase">Live Challenges</h2>
-                    <p style={{  fontFamily: "helvetica" }} className="mt-4 text-lg text-secondary max-w-2xl mx-auto">New quests arrive continuously. Your next legend awaits.</p>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-primary uppercase">Live Challenges</h2>
+                    <p style={{  fontFamily: "helvetica" }} className="mt-4 text-base sm:text-lg text-secondary max-w-2xl mx-auto">New quests arrive continuously. Your next legend awaits.</p>
                 </div>
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                     {questsData.map((quest, index) => (
                         <QuestCard key={quest.id} quest={quest} index={index} isVisible={isSectionVisible} />
                     ))}

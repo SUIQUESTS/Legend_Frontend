@@ -109,7 +109,7 @@ const JoinQuestModal: React.FC<JoinQuestModalProps> = ({ quest, isOpen, onClose,
                                 id="submission-link"
                                 value={link}
                                 onChange={e => setLink(e.target.value)}
-                                placeholder="https://github.com/your-repo"
+                                placeholder="Provide Link to Submission"
                                 disabled={isSubmitting}
                                 className={`w-full bg-background border-2 rounded-lg text-primary pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background transition-all duration-300 ${
                                     error ? 'border-red-500/50 focus:ring-red-500/50' : 'border-border focus:border-accent focus:ring-accent/50'

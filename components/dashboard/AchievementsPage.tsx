@@ -94,7 +94,7 @@ const AchievementsPage: React.FC<AchievementsPageProps> = ({ onNavigate }) => {
 
                 setNfts(transformedNfts);
             } catch (error) {
-                console.error("Error fetching NFTs:", error);
+                // console.error("Error fetching NFTs:", error);
                 setError('Failed to load your NFTs');
             }
         }
@@ -118,7 +118,7 @@ const AchievementsPage: React.FC<AchievementsPageProps> = ({ onNavigate }) => {
                     `https://legendbackend-a29sm.sevalla.app/api/challenges/${currentAccount.address}/achievements`
                 );
 
-                console.log("Achievements API response:", response.data);
+                // console.log("Achievements API response:", response.data);
 
                 if (response.data && response.data.achievements) {
                     // Transform API achievements to match our Achievement interface
@@ -133,14 +133,14 @@ const AchievementsPage: React.FC<AchievementsPageProps> = ({ onNavigate }) => {
                         nft_id: apiAchievement.nft_id
                     }));
 
-                    console.log("Transformed achievements:", transformedAchievements);
+                    // console.log("Transformed achievements:", transformedAchievements);
 
                     setAchievements(transformedAchievements);
                 } else {
                     setAchievements([]);
                 }
             } catch (error: any) {
-                console.error("Error fetching achievements:", error);
+                // console.error("Error fetching achievements:", error);
                 if (error.response?.status === 404) {
                     // No achievements found for this user
                     setAchievements([]);
@@ -160,7 +160,7 @@ const AchievementsPage: React.FC<AchievementsPageProps> = ({ onNavigate }) => {
         // Try to find matching NFT by ID
         const matchingNft = nfts.find(nft => nft.id === achievement.nft_id);
         
-        console.log("Matching NFT for achievement:", nfts);
+        // console.log("Matching NFT for achievement:", nfts);
         // Use NFT data if found, otherwise use achievement data
         return {
             ...achievement,
@@ -170,8 +170,8 @@ const AchievementsPage: React.FC<AchievementsPageProps> = ({ onNavigate }) => {
         };
     });
 
-    console.log("Combined achievements:", combinedAchievements);
-    console.log("Available NFTs:", nfts);
+    // console.log("Combined achievements:", combinedAchievements);
+    // console.log("Available NFTs:", nfts);
 
     if (!currentAccount) {
         return (

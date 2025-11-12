@@ -54,6 +54,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ username, onLogout, a
     const [activePage, setActivePage] = useState<ActivePage>({ name: 'Home' });
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const currentAccount = useCurrentAccount();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const loadNotifications = async () => {
         if (!currentAccount?.address) return;
@@ -69,7 +70,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ username, onLogout, a
                 setNotifications([]);
             }
         } catch (error) {
-            console.error('Error loading notifications:', error);
+            // console.error('Error loading notifications:', error);
             addToast('Failed to load notifications', 'error');
         }
     };
@@ -87,6 +88,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ username, onLogout, a
 
     const navigateTo = (pageName: string, params?: Record<string, any>) => {
         setActivePage({ name: pageName, params });
+        // Close sidebar when navigating on mobile
+        setIsSidebarOpen(false);
     };
 
     const renderContent = () => {
@@ -114,14 +117,36 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ username, onLogout, a
 
     return (
         <div className="flex min-h-screen bg-background bg-grid-pattern bg-grid-size">
-            <Sidebar activePage={activePage.name} setActivePage={(page) => navigateTo(page)} onLogout={onLogout} />
-            <div className="flex-1 flex flex-col pl-20 group-hover:pl-20 lg:pl-24"> {/* Adjust pl for sidebar width */}
-               <DashboardHeader 
+            {/* Mobile sidebar overlay */}
+            <div 
+                className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ease-in-out lg:hidden ${
+                    isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
+                onClick={() => setIsSidebarOpen(false)}
+            ></div>
+            
+            {/* Sidebar - hidden on mobile by default, shown when isSidebarOpen is true */}
+            <div 
+                className={`fixed top-0 left-0 h-full z-50 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 lg:z-auto ${
+                    isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                } lg:translate-x-0`}
+            >
+                <Sidebar 
+                    activePage={activePage.name} 
+                    setActivePage={(page) => navigateTo(page)} 
+                    onLogout={onLogout} 
+                />
+            </div>
+            
+            <div className="flex-1 flex flex-col">
+                {/* Pass the sidebar toggle function to the header */}
+                <DashboardHeader 
                     username={username}
                     notifications={notifications}
                     onClearNotifications={handleClearNotifications}
                     onDeleteNotification={handleDeleteNotification}
                     onLoadNotifications={loadNotifications}
+                    onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
                 />
                 <main className="flex-1 overflow-y-auto">
                     {renderContent()}

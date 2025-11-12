@@ -143,7 +143,7 @@ const ProfileCreation: React.FC<ProfileCreationProps> = ({ onProfileCreated }) =
     }
 
     return (
-        <section ref={ref} className="relative min-h-screen flex items-center justify-center p-6 overflow-hidden bg-background">
+        <section ref={ref} className="relative min-h-screen flex items-center justify-center p-4 sm:p-6 overflow-hidden bg-background">
             <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-50"></canvas>
             <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-grid-pattern bg-grid-size opacity-50"></div>
              <div 
@@ -151,27 +151,27 @@ const ProfileCreation: React.FC<ProfileCreationProps> = ({ onProfileCreated }) =
                 style={{ animation: `aurora 20s infinite linear`, backgroundSize: '400% 400%' }}>
             </div>
             
-            <div className={`relative z-10 w-full max-w-md text-center bg-surface/80 backdrop-blur-lg border border-border rounded-2xl p-8 shadow-2xl shadow-accent/10 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-                <h1 className="text-4xl md:text-5xl font-bold font-heading bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
+            <div className={`relative z-10 w-full max-w-md text-center bg-surface/80 backdrop-blur-lg border border-border rounded-2xl p-6 sm:p-8 shadow-2xl shadow-accent/10 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
                     Forge Your Identity
                 </h1>
-                <p className="text-secondary mb-8">Claim your unique name on the ledger of Legends.</p>
+                <p className="text-secondary mb-6 sm:mb-8 text-sm sm:text-base">Claim your unique name on the ledger of Legends.</p>
                 
                 <form onSubmit={handleSubmit}>
                     <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-bold text-secondary">@</span>
+                        <span className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-xl sm:text-2xl font-bold text-secondary">@</span>
                         <input
                             type="text"
                             value={username}
                             onChange={handleUsernameChange}
                             placeholder="your_legend"
                             maxLength={15}
-                            className={`w-full bg-background border-2 rounded-lg text-2xl font-bold font-heading text-primary pl-10 pr-12 py-4 text-center focus:outline-none focus:ring-4 transition-all duration-300 ${getStatusColor()}`}
+                            className={`w-full bg-background border-2 rounded-lg text-xl sm:text-2xl font-bold font-heading text-primary pl-8 sm:pl-10 pr-10 sm:pr-12 py-3 sm:py-4 text-center focus:outline-none focus:ring-4 transition-all duration-300 ${getStatusColor()}`}
                         />
-                         <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                            {status === 'checking' && <div className="w-5 h-5 border-2 border-yellow-500/50 border-t-yellow-500 rounded-full animate-spin"></div>}
-                            {status === 'available' && <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>}
-                            {(status === 'taken' || status === 'invalid') && <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>}
+                         <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2">
+                            {status === 'checking' && <div className="w-4 sm:w-5 h-4 sm:h-5 border-2 border-yellow-500/50 border-t-yellow-500 rounded-full animate-spin"></div>}
+                            {status === 'available' && <svg xmlns="http://www.w3.org/2000/svg" className="h-5 sm:h-6 w-5 sm:w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>}
+                            {(status === 'taken' || status === 'invalid') && <svg xmlns="http://www.w3.org/2000/svg" className="h-5 sm:h-6 w-5 sm:w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>}
                         </div>
                     </div>
                     {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
@@ -180,7 +180,7 @@ const ProfileCreation: React.FC<ProfileCreationProps> = ({ onProfileCreated }) =
                     <button
                         type="submit"
                         disabled={status !== 'available'}
-                        className="w-full mt-6 group relative font-bold text-lg text-primary px-8 py-4 bg-accent rounded-lg focus:outline-none focus:ring-4 focus:ring-accent/50 transition-all duration-300 transform hover:scale-105 hover:shadow-glow-accent disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none overflow-hidden"
+                        className="w-full mt-6 group relative font-bold text-base sm:text-lg text-primary px-6 sm:px-8 py-3 sm:py-4 bg-accent rounded-lg focus:outline-none focus:ring-4 focus:ring-accent/50 transition-all duration-300 transform hover:scale-105 hover:shadow-glow-accent disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none overflow-hidden"
                     >
                         <span className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.2)_45%,rgba(255,255,255,0.2)_55%,transparent_80%)] -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></span>
                         <span className="relative z-10">Claim My Name</span>

@@ -61,7 +61,7 @@ const DashboardHome: React.FC = () => {
         async function fetchLeaderboard() {
             try {
                 
-                console.log("Starting to fetch leaderboard...");
+                // console.log("Starting to fetch leaderboard...");
                 
                 const response = await axios.get<LeaderboardResponse>(
                 'https://legendbackend-a29sm.sevalla.app/api/challenges/leaderboard'
@@ -76,8 +76,8 @@ const DashboardHome: React.FC = () => {
                 setLeaderboardData([]);
                 }
             } catch (error: any) {
-                console.error("Error fetching leaderboard:", error);
-                console.error("Error details:", error.response?.data);
+                // console.error("Error fetching leaderboard:", error);
+                // console.error("Error details:", error.response?.data);
                 setLeaderboardData([]);
             }
         };
@@ -222,10 +222,10 @@ const DashboardHome: React.FC = () => {
     }, [questData]);
 
     return (
-        <div className="p-8 space-y-12 animate-content-fade-in">
+        <div className="p-4 sm:p-6 md:p-8 space-y-8 sm:space-y-10 md:space-y-12 animate-content-fade-in">
             {/* Stats Section */}
             <section ref={statsRef}>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                     <StatCard icon={<CrownIcon />} title="Current Rank" value={`#${position}`} index={0} isVisible={statsVisible} />
                     <StatCard icon={<TrophyIcon />} title="Total Points" value={totalPoint.toLocaleString()} index={1} isVisible={statsVisible} />
                     <StatCard icon={<HammerIcon />} title="Quests Won" value={totalQuestsWon.toString()} index={2} isVisible={statsVisible} />
@@ -248,8 +248,8 @@ const DashboardHome: React.FC = () => {
             {/* Won Quests Section */}
             {wonQuests.length > 0 && (
                 <section>
-                    <h2 className="text-3xl font-bold font-heading text-primary mb-6">Quests You've Won</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <h2 className="text-2xl sm:text-3xl font-bold font-heading text-primary mb-4 sm:mb-6">Quests You've Won</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                         {wonQuests.map((quest, index) => (
                             <QuestCard 
                                 key={quest.id} 
@@ -265,9 +265,9 @@ const DashboardHome: React.FC = () => {
             
             {/* Active Quests Section */}
             <section>
-                 <h2 className="text-3xl font-bold font-heading text-primary mb-6">Your Active Quests</h2>
+                 <h2 className="text-2xl sm:text-3xl font-bold font-heading text-primary mb-4 sm:mb-6">Your Active Quests</h2>
                  {activeQuests.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                         {activeQuests.map((quest, index) => (
                             <QuestCard 
                                 key={quest.id} 
@@ -279,7 +279,7 @@ const DashboardHome: React.FC = () => {
                         ))}
                     </div>
                  ) : (
-                    <div className="text-center py-10 px-6 bg-surface rounded-lg border border-border">
+                    <div className="text-center py-8 sm:py-10 px-4 sm:px-6 bg-surface rounded-lg border border-border">
                         <p className="text-secondary">No active quests match your filters.</p>
                     </div>
                  )}
@@ -288,9 +288,9 @@ const DashboardHome: React.FC = () => {
             {/* No Quests Message */}
             {questData.length === 0 && (
                 <section>
-                    <div className="text-center py-16 px-6 bg-surface rounded-lg border border-border">
-                        <div className="text-6xl mb-4">🎯</div>
-                        <h3 className="text-xl font-bold text-primary mb-2">No Quests Yet</h3>
+                    <div className="text-center py-12 sm:py-16 px-4 sm:px-6 bg-surface rounded-lg border border-border">
+                        <div className="text-5xl sm:text-6xl mb-4">🎯</div>
+                        <h3 className="text-xl sm:text-2xl font-bold text-primary mb-2">No Quests Yet</h3>
                         <p className="text-secondary max-w-md mx-auto">
                             You haven't participated in any quests yet. Join some quests to start earning rewards and NFTs!
                         </p>

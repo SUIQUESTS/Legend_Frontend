@@ -1,0 +1,91 @@
+/* Responsive utility classes for mobile devices */
+@media (max-width: 640px) {
+  .sm\:gap-6 {
+    gap: 1.5rem !important;
+  }
+  
+  .sm\:gap-8 {
+    gap: 2rem !important;
+  }
+  
+  .sm\:py-12 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+  
+  .sm\:text-2xl {
+    font-size: 1.5rem !important;
+    line-height: 2rem !important;
+  }
+  
+  .sm\:text-3xl {
+    font-size: 1.875rem !important;
+    line-height: 2.25rem !important;
+  }
+  
+  .sm\:text-4xl {
+    font-size: 2.25rem !important;
+    line-height: 2.5rem !important;
+  }
+  
+  .sm\:gap-4 {
+    gap: 1rem !important;
+  }
+  
+  .sm\:p-3 {
+    padding: 0.75rem !important;
+  }
+  
+  .sm\:text-center {
+    text-align: center !important;
+  }
+  
+  .sm\:mb-12 {
+    margin-bottom: 3rem !important;
+  }
+  
+  .sm\:mt-12 {
+    margin-top: 3rem !important;
+  }
+  
+  .sm\:py-20 {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
+  
+  .sm\:py-28 {
+    padding-top: 7rem !important;
+    padding-bottom: 7rem !important;
+  }
+}
+
+/* Medium devices (tablets) */
+@media (min-width: 641px) and (max-width: 768px) {
+  .md\:py-20 {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
+  
+  .md\:text-4xl {
+    font-size: 2.25rem !important;
+    line-height: 2.5rem !important;
+  }
+  
+  .md\:text-5xl {
+    font-size: 3rem !important;
+    line-height: 1 !important;
+  }
+}
+
+/* Large devices (desktops) */
+@media (min-width: 769px) {
+  .lg\:py-28 {
+    padding-top: 7rem !important;
+    padding-bottom: 7rem !important;
+  }
+  
+  .lg\:text-5xl {
+    font-size: 3rem !important;
+    line-height: 1 !important;
+  }
+}

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import CustomCursor from './components/CustomCursor';
 import DashboardLayout from './components/dashboard/DashboardLayout';
@@ -100,7 +99,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="relative overflow-x-hidden">
+    <div className="relative overflow-x-hidden w-full min-h-screen">
       <CustomCursor />
       {renderContent()}
       <ToastContainer toasts={toasts} removeToast={removeToast} />

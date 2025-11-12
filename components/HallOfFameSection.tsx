@@ -34,7 +34,7 @@ const FameCard: React.FC<{ item: typeof hallOfFameData[0], index: number }> = ({
             ref={ref}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className={`group relative rounded-xl overflow-hidden cursor-pointer break-inside-avoid mb-6 transition-all duration-700 ease-out border-2 border-transparent hover:border-accent-soft/50 shadow-lg ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
+            className={`group relative rounded-xl overflow-hidden cursor-pointer break-inside-avoid mb-4 sm:mb-6 transition-all duration-700 ease-out border-2 border-transparent hover:border-accent-soft/50 shadow-lg ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
             style={{ transitionDelay: isVisible ? `${index * 100}ms` : '0ms' }}
         >
             <img 
@@ -45,10 +45,10 @@ const FameCard: React.FC<{ item: typeof hallOfFameData[0], index: number }> = ({
                 style={{transform: 'scale(1.1)', transition: 'transform 0.4s ease-out'}}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/40 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 p-6 w-full transform translate-y-1/4 group-hover:translate-y-0 transition-all duration-500 ease-in-out">
+            <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-1/4 group-hover:translate-y-0 transition-all duration-500 ease-in-out">
                 <span style={{  fontFamily: "helvetica" }} className="inline-block px-3 py-1 bg-accent/80 text-background text-xs font-bold rounded-full mb-2 backdrop-blur-sm">{item.type}</span>
-                <h3 className="text-xl font-bold text-primary font-heading">{item.submission}</h3>
-                <p style={{  fontFamily: "helvetica" }} className="text-secondary opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-full transition-all duration-300 delay-100">by {item.user}</p>
+                <h3 className="text-lg sm:text-xl font-bold text-primary font-heading">{item.submission}</h3>
+                <p style={{  fontFamily: "helvetica" }} className="text-secondary text-sm sm:text-base opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-full transition-all duration-300 delay-100">by {item.user}</p>
             </div>
              <div className="absolute top-4 right-4 text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
@@ -63,16 +63,16 @@ const HallOfFameSection: React.FC = () => {
     const [titleRef, isTitleVisible] = useOnScreen<HTMLDivElement>({ threshold: 0.5, triggerOnce: true });
 
     return (
-        <section id="hall-of-fame" className="py-20 md:py-28 bg-surface-dark/30">
+        <section id="hall-of-fame" className="py-16 sm:py-20 md:py-28 bg-surface-dark/30">
             <div className="container mx-auto px-6">
                 <div 
                     ref={titleRef} 
-                    className={`text-center mb-16 transition-all duration-700 ${isTitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                    className={`text-center mb-12 sm:mb-16 transition-all duration-700 ${isTitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold font-heading text-primary uppercase">Immortal Legends</h2>
-                    <p style={{  fontFamily: "helvetica" }} className="mt-4 text-lg text-secondary max-w-2xl mx-auto">A showcase of the greatest deeds accomplished by the community.</p>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-primary uppercase">Immortal Legends</h2>
+                    <p style={{  fontFamily: "helvetica" }} className="mt-4 text-base sm:text-lg text-secondary max-w-2xl mx-auto">A showcase of the greatest deeds accomplished by the community.</p>
                 </div>
-                <div className="columns-2 md:columns-3 lg:columns-4 gap-6">
+                <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 sm:gap-6">
                     {hallOfFameData.map((item, index) => (
                         <FameCard key={item.id} item={item} index={index} />
                     ))}

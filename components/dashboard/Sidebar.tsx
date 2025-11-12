@@ -1,5 +1,5 @@
 import React from 'react';
-import { SuiLogo, HomeIcon, LayoutGridIcon, AwardIcon, UsersIcon, SettingsIcon, LogoutIcon, PlusCircleIcon, ClipboardDocumentCheckIcon } from '../icons';
+import { SuiLogo, HomeIcon, LayoutGridIcon, AwardIcon, UsersIcon, SettingsIcon, LogoutIcon, PlusCircleIcon, ClipboardDocumentCheckIcon, XIcon } from '../icons';
 import Tooltip from '../Tooltip';
 import { useDisconnectWallet } from '@mysten/dapp-kit';
 
@@ -11,7 +11,7 @@ interface NavItemProps {
 }
 
 const NavItem: React.FC<NavItemProps> = ({ icon, label, isActive, onClick }) => (
-    <Tooltip content={label} position="right" className="w-full">
+    <Tooltip content={label} position="right" className="w-full lg:w-auto">
         <button
             style={{ fontFamily: "helvetica" }}
             onClick={(e) => {
@@ -29,7 +29,10 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, isActive, onClick }) => 
             <div className="relative ml-2">
                 {React.cloneElement(icon, { className: `w-6 h-6 transition-colors ${isActive ? 'text-accent' : ''}` })}
             </div>
-            <span className="ml-4 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-100 whitespace-nowrap">{label}</span>
+            {/* Always show label on mobile when sidebar is open, and on larger screens */}
+            <span className="ml-4 font-semibold whitespace-nowrap transition-opacity duration-200 delay-100">
+                {label}
+            </span>
         </button>
     </Tooltip>
 );
@@ -57,13 +60,19 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, onLogout }
     };
 
     return (
-        <aside className="fixed top-0 left-0 h-full w-20 hover:w-64 transition-all duration-300 ease-in-out bg-surface-dark/80 backdrop-blur-lg border-r border-border z-30 flex flex-col p-4 overflow-hidden group">
-            <div className="flex items-center gap-2 text-2xl font-bold text-primary mb-12 flex-shrink-0 pl-1.5 h-8">
-                <SuiLogo className="w-8 h-8 text-lp-accent-soft flex-shrink-0"/>
-                <span className="opacity-0 group-hover:opacity-100 text-2xl md:text-2xl font-bold font-heading text-primary uppercase whitespace-nowrap">LEGENDS</span>
+        <aside className="h-full w-64 bg-surface-dark/80 backdrop-blur-lg border-r border-border z-30 flex flex-col p-4 overflow-hidden">
+            <div className="flex items-center justify-between gap-2 text-2xl font-bold text-primary mb-8 flex-shrink-0 h-8">
+                <div className="flex items-center gap-2">
+                    <SuiLogo className="w-8 h-8 text-lp-accent-soft flex-shrink-0"/>
+                    <span className="text-2xl font-bold font-heading text-primary uppercase whitespace-nowrap">LEGENDS</span>
+                </div>
+                {/* Close button for mobile */}
+                <button className="lg:hidden p-1 rounded-lg hover:bg-surface transition-colors">
+                    <XIcon className="w-6 h-6 text-primary" />
+                </button>
             </div>
             
-            <nav className="flex-1 space-y-3">
+            <nav className="flex-1 space-y-2">
                 {navItems.map(item => (
                     <NavItem 
                         key={item.id}
@@ -75,17 +84,16 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, onLogout }
                 ))}
             </nav>
 
-            <div className="mt-auto flex-shrink-0 space-y-3">
-                <NavItem
+            <div className="mt-auto flex-shrink-0 space-y-2">
+                {/* <NavItem
                     icon={<SettingsIcon />}
                     label="Settings"
                     isActive={activePage === 'Settings'}
                     onClick={() => setActivePage('Settings')}
-                />
+                /> */}
                 
-
                 {/* Option 2: Custom logout button that clears storage */}
-                <Tooltip content="Logout & Clear Data" position="right" className="w-full">
+                <Tooltip content="Logout & Clear Data" position="right" className="w-full lg:w-auto">
                     <button
                         onClick={handleLogout}
                         className="flex items-center w-full text-left p-3 rounded-lg transition-all duration-300 group relative text-secondary hover:text-red-400 hover:bg-red-500/10"
@@ -94,7 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, onLogout }
                         <div className="relative ml-2">
                             <LogoutIcon className="w-6 h-6" />
                         </div>
-                        <span style={{ fontFamily: "helvetica" }} className="ml-4 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-100 whitespace-nowrap">
+                        <span style={{ fontFamily: "helvetica" }} className="ml-4 font-semibold whitespace-nowrap transition-opacity duration-200 delay-100">
                             Logout
                         </span>
                     </button>

@@ -6,6 +6,7 @@ import { getFullnodeUrl } from "@mysten/sui/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "@mysten/dapp-kit/dist/index.css";
 import "@radix-ui/themes/styles.css";
+import "./src/responsive.css";
 import { Theme } from "@radix-ui/themes";
 
 

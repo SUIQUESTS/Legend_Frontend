@@ -9,7 +9,7 @@ interface FilterButtonProps {
 const FilterButton: React.FC<FilterButtonProps> = ({ label, isActive, onClick }) => (
   <button
     onClick={onClick}
-    className={`px-4 py-2 text-sm rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background ${
+    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background ${
       isActive
         ? 'bg-accent text-primary shadow-md'
         : 'bg-surface text-secondary hover:bg-border hover:text-primary'
@@ -37,8 +37,8 @@ const QuestFilters: React.FC<QuestFiltersProps> = ({
   onDifficultyChange,
 }) => {
   return (
-    <div className="bg-surface backdrop-blur-md border border-border rounded-xl p-4 mb-8 space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+    <div className="bg-surface backdrop-blur-md border border-border rounded-xl p-3 sm:p-4 mb-6 sm:mb-8 space-y-3 sm:space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
         <div className="flex flex-wrap gap-2">
           {categories.map(category => (
             <FilterButton
@@ -50,7 +50,7 @@ const QuestFilters: React.FC<QuestFiltersProps> = ({
           ))}
         </div>
       </div>
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
         <div className="flex flex-wrap gap-2">
           {difficulties.map(difficulty => (
             <FilterButton

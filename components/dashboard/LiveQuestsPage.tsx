@@ -52,7 +52,7 @@ const LiveQuestsPage: React.FC<LiveQuestsPageProps> = ({ username, addToast }) =
             const { data } = await axios.get('https://legendbackend-a29sm.sevalla.app/api/challenges/getall');
             setQuests(data.filter((quest) => quest.creator !== currentAccount?.address && quest.status === 'active'));
         } catch (error) {
-            console.error("Error fetching quests data:", error);
+            // console.error("Error fetching quests data:", error);
             addToast('Failed to load quests', 'error');
         } finally {
             setIsLoading(false);
@@ -88,7 +88,7 @@ const LiveQuestsPage: React.FC<LiveQuestsPageProps> = ({ username, addToast }) =
 
             setNfts(transformedNfts.filter((nft, index) => index !== 3));
         } catch (error) {
-            console.error("Error fetching NFTs:", error);
+            // console.error("Error fetching NFTs:", error);
             addToast('Failed to load NFTs', 'error');
         }
     };
@@ -109,7 +109,7 @@ const LiveQuestsPage: React.FC<LiveQuestsPageProps> = ({ username, addToast }) =
             .filter(apiQuest => !hasUserSubmitted(apiQuest))
             .map((apiQuest, index) => {
                 const matchingNft = nfts.find(nft => nft.id === apiQuest.nft_id);
-                console.log('Matching NFT for quest', apiQuest.title, ':', nfts);
+                // console.log('Matching NFT for quest', apiQuest.title, ':', nfts);
 
                 let status: 'Live' | 'Judging' | 'Completed' = 'Live';
                 if (apiQuest.status === 'completed') status = 'Completed';
@@ -177,14 +177,14 @@ const LiveQuestsPage: React.FC<LiveQuestsPageProps> = ({ username, addToast }) =
                 submission_link: link
             };
 
-            console.log('Submitting to quest:', questId, 'with data:', submissionData);
+            // console.log('Submitting to quest:', questId, 'with data:', submissionData);
 
             const response = await axios.post(
                 `https://legendbackend-a29sm.sevalla.app/api/challenges/${questId}/submit`,
                 submissionData
             );
 
-            console.log('Submission response:', response);
+            // console.log('Submission response:', response);
 
             if (response.status === 200 || response.status === 201) {
                 // Add to locally tracked submissions
@@ -196,7 +196,7 @@ const LiveQuestsPage: React.FC<LiveQuestsPageProps> = ({ username, addToast }) =
                 await getAllQuests();
             }
         } catch (error: any) {
-            console.error('Submission error:', error);
+            // console.error('Submission error:', error);
             const errorMessage = error.response?.data?.message || 'Failed to submit to quest';
             addToast(errorMessage, 'error');
             // Re-throw the error so the modal can handle it

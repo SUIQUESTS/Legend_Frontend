@@ -50,7 +50,7 @@ const StepCard: React.FC<StepCardProps> = ({ step, icon, title, description, ico
     return (
         <div 
           ref={ref}
-          className={`relative p-8 bg-surface rounded-2xl border border-border transition-all duration-500 ease-out group hover:border-accent-soft/50 hover:-translate-y-1.5 overflow-hidden ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+          className={`relative p-6 sm:p-8 bg-surface rounded-2xl border border-border transition-all duration-500 ease-out group hover:border-accent-soft/50 hover:-translate-y-1.5 overflow-hidden ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
           style={{ transitionDelay: isVisible ? `${step * 150}ms` : '0ms' }}
         >
           {step === 3 && <ConfettiBurst />}
@@ -82,10 +82,9 @@ const StepCard: React.FC<StepCardProps> = ({ step, icon, title, description, ico
                     </div>
                 )}
             </div>
-            <h3 className="text-xl font-bold font-heading mb-3 text-primary">{title}</h3>
-            <p className="text-secondary leading-relaxed">{description}</p>
+            <h3 className="text-xl font-bold font-heading mb-3 text-primary">0{step}. {title}</h3>
+            <p className="text-secondary leading-relaxed text-sm sm:text-base">{description}</p>
           </div>
-          <span className="absolute top-4 right-6 text-6xl font-black font-heading text-surface-dark/50 transition-colors duration-300 group-hover:text-accent/10">0{step}</span>
         </div>
     );
 };
@@ -114,16 +113,16 @@ const HowItWorksSection: React.FC = () => {
     ];
 
     return (
-        <section id="how-it-works" className="py-20 md:py-28 bg-surface-dark/30">
+        <section id="how-it-works" className="py-16 sm:py-20 md:py-28 bg-surface-dark/30">
             <div className="container mx-auto px-6">
                 <div 
                     ref={titleRef} 
-                    className={`text-center mb-16 transition-all duration-700 ${isTitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                    className={`text-center mb-12 sm:mb-16 transition-all duration-700 ${isTitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold font-heading text-primary">Forge Your Legacy</h2>
-                    <p style={{  fontFamily: "helvetica" }} className="mt-4 text-lg text-secondary max-w-2xl mx-auto">Three steps to eternal glory on the blockchain.</p>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-primary">Forge Your Legacy</h2>
+                    <p style={{  fontFamily: "helvetica" }} className="mt-4 text-base sm:text-lg text-secondary max-w-2xl mx-auto">Three steps to eternal glory on the blockchain.</p>
                 </div>
-                <div className="grid md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                     {steps.map((step, index) => (
                         <StepCard key={step.title} {...step} step={index + 1} />
                     ))}

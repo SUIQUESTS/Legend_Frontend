@@ -100,7 +100,7 @@ const MyQuestsPage: React.FC<MyQuestsPageProps> = ({ username, onNavigate }) => 
     useEffect(() => {
         async function getUserQuests() {
             if (!currentAccount?.address) {
-                console.log("No wallet connected");
+                // console.log("No wallet connected");
                 setIsLoading(false);
                 setQuests([]);
                 return;
@@ -116,10 +116,10 @@ const MyQuestsPage: React.FC<MyQuestsPageProps> = ({ username, onNavigate }) => 
                     `https://legendbackend-a29sm.sevalla.app/api/challenges/creator/${currentAccount?.address}`
                 );
 
-                console.log("API Response:", response.data);
+                // console.log("API Response:", response.data);
 
                 if (response.data && response.data.active && response.data.active.length > 0) {
-                    console.log(`Found ${response.data.active.length} challenges`);
+                    // console.log(`Found ${response.data.active.length} challenges`);
                     
                     const transformedQuests: Quest[] = response.data.active.map((apiQuest, index) => {
                         // Find the matching NFT for this quest
@@ -162,15 +162,15 @@ const MyQuestsPage: React.FC<MyQuestsPageProps> = ({ username, onNavigate }) => 
                         };
                     });
 
-                    console.log("Transformed quests:", transformedQuests);
-                    console.log("Current account address:", currentAccount.address.slice(0, 7));
+                    // console.log("Transformed quests:", transformedQuests);
+                    // console.log("Current account address:", currentAccount.address.slice(0, 7));
                     setQuests(transformedQuests.filter(quest => quest.creator === `@${currentAccount.address.slice(0, 8)}...`));
                 } else {
-                    console.log("No challenges found");
+                    // console.log("No challenges found");
                     setQuests([]);
                 }
             } catch (error: any) {
-                console.error("Error fetching user quests:", error);
+                // console.error("Error fetching user quests:", error);
                 if (error.response) {
                     console.error("Error response:", error.response.status, error.response.data);
                 }

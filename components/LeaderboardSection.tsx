@@ -46,27 +46,27 @@ const LeaderboardRow: React.FC<{
       className={`border-b border-border group transition-all duration-500 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'} ${isTop3 ? rankStyles[rank] : 'hover:bg-surface'}`}
       style={{ transform: isVisible ? 'none' : 'translateX(30px)', transitionDelay: `${index * 80}ms` }}
     >
-      <td className="p-4 text-center font-bold font-heading text-lg">
-        {isTop3 ? <CrownIcon className="w-6 h-6 mx-auto" /> : rank}
+      <td className="p-3 sm:p-4 text-center font-bold font-heading text-lg">
+        {isTop3 ? <CrownIcon className="w-5 sm:w-6 h-5 sm:h-6 mx-auto" /> : rank}
       </td>
-      <td className="p-4">
-        <div className="flex items-center gap-4">
+      <td className="p-3 sm:p-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           <img 
             src={generateAvatarUrl(data.userAddress)} 
             alt={data.userAddress} 
-            className="w-10 h-10 rounded-full object-cover ring-2 ring-surface group-hover:ring-accent transition-all" 
+            className="w-8 sm:w-10 h-8 sm:h-10 rounded-full object-cover ring-2 ring-surface group-hover:ring-accent transition-all" 
           />
           <div>
-            <span className="font-semibold text-primary block">{formatUser(data.userAddress, data.name)}</span>
-            <span className="text-xs text-secondary">{data.userAddress.slice(0, 8)}...</span>
+            <span className="font-semibold text-primary block text-sm sm:text-base">{formatUser(data.userAddress, data.name)}</span>
+            <span className="text-xs text-secondary">{data.userAddress.slice(0, 6)}...</span>
           </div>
         </div>
       </td>
-      <td className="p-4 text-center text-secondary group-hover:text-primary transition-colors">
+      <td className="p-3 sm:p-4 text-center text-secondary group-hover:text-primary transition-colors text-sm sm:text-base">
         {/* Since the API doesn't provide quest count, show placeholder */}
         -
       </td>
-      <td className="p-4 text-center font-bold font-heading text-lg text-accent-soft">
+      <td className="p-3 sm:p-4 text-center font-bold font-heading text-lg text-accent-soft">
         {data.totalPoints.toLocaleString()}
       </td>
     </tr>
@@ -114,14 +114,14 @@ const LeaderboardSection: React.FC = () => {
   }, []);
 
   return (
-    <section id="leaderboard" className="py-20 md:py-28 bg-background">
+    <section id="leaderboard" className="py-16 sm:py-20 md:py-28 bg-background">
       <div className="container mx-auto px-6">
         <div 
           ref={titleRef} 
-          className={`text-center mb-16 transition-all duration-700 ${isTitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+          className={`text-center mb-12 sm:mb-16 transition-all duration-700 ${isTitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold font-heading text-primary uppercase">Top Champions</h2>
-          <p style={{ fontFamily: "helvetica" }} className="mt-4 text-lg text-secondary max-w-2xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-primary uppercase">Top Champions</h2>
+          <p style={{ fontFamily: "helvetica" }} className="mt-4 text-base sm:text-lg text-secondary max-w-2xl mx-auto">
             The mightiest legends leading the charge. Will you join them?
           </p>
         </div>
@@ -142,10 +142,10 @@ const LeaderboardSection: React.FC = () => {
             <table className="w-full">
               <thead className="border-b-2 border-border">
                 <tr>
-                  <th className="p-4 text-left text-secondary font-semibold uppercase tracking-wider text-center w-1/6">Rank</th>
-                  <th className="p-4 text-left text-secondary font-semibold uppercase tracking-wider w-1/2">User</th>
-                  <th className="p-4 text-left text-secondary font-semibold uppercase tracking-wider text-center">Quests</th>
-                  <th className="p-4 text-left text-secondary font-semibold uppercase tracking-wider text-center">Points</th>
+                  <th className="p-3 sm:p-4 text-left text-secondary font-semibold uppercase tracking-wider text-center w-1/6">Rank</th>
+                  <th className="p-3 sm:p-4 text-left text-secondary font-semibold uppercase tracking-wider w-1/2">User</th>
+                  <th className="p-3 sm:p-4 text-left text-secondary font-semibold uppercase tracking-wider text-center">Quests</th>
+                  <th className="p-3 sm:p-4 text-left text-secondary font-semibold uppercase tracking-wider text-center">Points</th>
                 </tr>
               </thead>
               <tbody>

@@ -80,26 +80,26 @@ const LeaderboardPage: React.FC = () => {
         setIsLoading(true);
         setError(null);
         
-        console.log("Starting to fetch leaderboard...");
+        // console.log("Starting to fetch leaderboard...");
         
         const response = await axios.get<LeaderboardResponse>(
           'https://legendbackend-a29sm.sevalla.app/api/challenges/leaderboard'
         );
 
-        console.log("Full API response:", response);
-        console.log("Response data:", response.data);
-        console.log("Leaderboard entries:", response.data.data);
+        // console.log("Full API response:", response);
+        // console.log("Response data:", response.data);
+        // console.log("Leaderboard entries:", response.data.data);
 
         if (response.data && response.data.data) {
-          console.log("Setting leaderboard data:", response.data.data);
+          // console.log("Setting leaderboard data:", response.data.data);
           setLeaderboardData(response.data.data);
         } else {
           console.log("No data found in response");
           setLeaderboardData([]);
         }
       } catch (error: any) {
-        console.error("Error fetching leaderboard:", error);
-        console.error("Error details:", error.response?.data);
+        // console.error("Error fetching leaderboard:", error);
+        // console.error("Error details:", error.response?.data);
         setError('Failed to load leaderboard data');
         setLeaderboardData([]);
       } finally {

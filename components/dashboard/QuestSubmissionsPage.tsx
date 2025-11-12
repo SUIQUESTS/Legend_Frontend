@@ -105,14 +105,14 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
 
             try {
                 setIsLoading(true);
-                console.log("Fetching quest and submissions for questId:", questId);
+                // console.log("Fetching quest and submissions for questId:", questId);
                 
                 // Fetch user's created quests to get the specific quest
                 const response = await axios.get(
                     `https://legendbackend-a29sm.sevalla.app/api/challenges/creator/${currentAccount.address}`
                 );
 
-                console.log("User quests response:", response.data);
+                // console.log("User quests response:", response.data);
 
                 if (response.data && response.data.active) {
                     // Find the specific quest by ID
@@ -123,10 +123,10 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
                         
                         // Set submissions from the quest data
                         if (foundQuest.submissions && Array.isArray(foundQuest.submissions)) {
-                            console.log("Submissions found:", foundQuest.submissions);
+                            // console.log("Submissions found:", foundQuest.submissions);
                             setSubmissions(foundQuest.submissions);
                         } else {
-                            console.log("No submissions found");
+                            // console.log("No submissions found");
                             setSubmissions([]);
                         }
 
@@ -140,15 +140,15 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
                             }
                         }
                     } else {
-                        console.error("Quest not found in user's quests");
+                        // console.error("Quest not found in user's quests");
                         addToast('Quest not found', 'error');
                     }
                 } else {
-                    console.error("No challenges found in response");
+                    // console.error("No challenges found in response");
                     addToast('No quests found', 'error');
                 }
             } catch (error) {
-                console.error("Error fetching quest and submissions:", error);
+                // console.error("Error fetching quest and submissions:", error);
                 addToast('Failed to load quest data', 'error');
             } finally {
                 setIsLoading(false);
@@ -205,7 +205,7 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
                 setWinner(isConfirming);
                 addToast(`${formatParticipant(isConfirming.participant_address)} has been selected as the winner!`);
             } catch (error) {
-                console.error("Error setting winner:", error);
+                // console.error("Error setting winner:", error);
                 addToast('Failed to set winner', 'error');
             } finally {
                 setIsConfirming(null);
@@ -228,7 +228,7 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
                 message: `You just won the '${quest.title}' and earned ${points} points.`
             };
 
-            console.log("Creating notification for winner:", notificationPayload);
+            // console.log("Creating notification for winner:", notificationPayload);
 
             const response = await axios.post(
                 'https://legendbackend-a29sm.sevalla.app/api/notifications/create/',
@@ -236,15 +236,15 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
             );
 
             if (response.status === 200 || response.status === 201) {
-                console.log("Notification created successfully:", response.data);
+                // console.log("Notification created successfully:", response.data);
                 addToast('Winner notification sent!', 'success');
                 return true;
             }
             return false;
         } catch (error: any) {
-            console.error('Error creating notification:', error);
+            // console.error('Error creating notification:', error);
             // Don't show error toast for notification failure - it shouldn't block the main flow
-            console.log('Notification creation failed, but continuing with winner selection');
+            // console.log('Notification creation failed, but continuing with winner selection');
             return false; // Return false but don't block the main flow
         }
     };
@@ -254,7 +254,7 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
         if (!winner || !quest) return false;
 
         const matchingNft = nfts.find(nft => nft.id === quest.nft_id);
-        console.log("Matching NFT for quest:", matchingNft);
+        // console.log("Matching NFT for quest:", matchingNft);
         try {
             const payload = {
                 challengeId: quest._id,
@@ -267,7 +267,7 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
                 }
             };
 
-            console.log("Sending select-winner payload:", payload);
+            // console.log("Sending select-winner payload:", payload);
 
             const response = await axios.put(
                 'https://legendbackend-a29sm.sevalla.app/api/challenges/select-winner',
@@ -280,7 +280,7 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
             }
             return false;
         } catch (error: any) {
-            console.error('Error selecting winner:', error);
+            // console.error('Error selecting winner:', error);
             const errorMessage = error.response?.data?.message || 'Failed to select winner and complete quest';
             addToast(errorMessage, 'error');
             return false;
@@ -305,7 +305,7 @@ const QuestSubmissionsPage: React.FC<QuestSubmissionsPageProps> = ({ questId, qu
                 }, 1500);
             }
         } catch (error) {
-            console.error("Error in winner selection process:", error);
+            // console.error("Error in winner selection process:", error);
             addToast('Failed to complete winner selection process', 'error');
         } finally {
             setIsSelectingWinner(false);

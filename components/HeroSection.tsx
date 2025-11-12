@@ -47,13 +47,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="grid lg:grid-cols-5 gap-12 items-start">
             {/* Left Column: Text Content */}
             <div className="lg:col-span-3 text-center lg:text-left lg:pt-10">
-                 <h1 className={`text-6xl md:text-8xl font-black tracking-tighter uppercase font-heading transition-all duration-700 bg-gradient-to-b from-primary to-slate-400 bg-clip-text text-transparent ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+                 <h1 className={`text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter uppercase font-heading transition-all duration-700 bg-gradient-to-b from-primary to-slate-400 bg-clip-text text-transparent ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
                     LEGENDS
                 </h1>
                 <p className={`mt-4 text-xl md:text-2xl text-accent-soft font-heading transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
                     Where Deeds Earn Eternal Glory
                 </p>
-                <p style={{  fontFamily: "helvetica" }} className={`mt-6  text-lg md:text-xl text-secondary max-w-2xl mx-auto lg:mx-0 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+                <p style={{  fontFamily: "helvetica" }} className={`mt-6 text-base sm:text-lg md:text-xl text-secondary max-w-2xl mx-auto lg:mx-0 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
                     Complete challenges. Earn your place in history. Prove your skills and become a part of the permanent ledger of the Sui blockchain.
                 </p>
                 <div className={`mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>

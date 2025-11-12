@@ -85,29 +85,29 @@ const QuestCard: React.FC<QuestCardProps> = ({ quest, index, isVisible, onJoin, 
             }}
         >
             <div className="absolute inset-0 bg-[radial-gradient(circle_250px_at_var(--x)_var(--y),_rgba(56,123,255,0.1),_transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20"></div>
-            <div className="p-6 relative z-10 flex flex-col h-full">
-                <div className="flex justify-between items-start mb-4">
+            <div className="p-4 sm:p-6 relative z-10 flex flex-col h-full">
+                <div className="flex justify-between items-start mb-3 sm:mb-4">
                     <span style={{ fontFamily: "helvetica" }} className="text-xs font-bold uppercase tracking-widest text-accent">{quest.category}</span>
                     <span style={{ fontFamily: "helvetica" }} className={`px-2 py-1 text-xs font-semibold rounded-full ${difficultyColor[quest.difficulty]}`}>{quest.difficulty}</span>
                 </div>
-                <h3 className="text-xl font-bold font-heading text-primary mb-2 h-14 flex-shrink-0">{quest.title}</h3>
+                <h3 className="text-lg sm:text-xl font-bold font-heading text-primary mb-2 h-12 sm:h-14 flex-shrink-0">{quest.title}</h3>
                 
-                <div style={{ fontFamily: "helvetica" }} className="flex justify-between items-center bg-background p-3 rounded-lg my-4">
-                    <div className="flex items-center gap-3">
-                        <img src={quest.nftBadge.image} alt={quest.nftBadge.name} className="w-10 h-10 rounded-md object-cover border-2 border-accent/30" />
+                <div style={{ fontFamily: "helvetica" }} className="flex justify-between items-center bg-background p-2 sm:p-3 rounded-lg my-3 sm:my-4">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        <img src={quest.nftBadge.image} alt={quest.nftBadge.name} className="w-8 h-8 sm:w-10 sm:h-10 rounded-md object-cover border-2 border-accent/30" />
                         <div>
                             <p className="text-xs text-secondary">NFT Badge</p>
-                            <p className="font-bold text-accent">{quest.nftBadge.name}</p>
+                            <p className="font-bold text-accent text-sm sm:text-base">{quest.nftBadge.name}</p>
                         </div>
                     </div>
                     <div className="text-right">
                         <p className="text-xs text-secondary">Points</p>
-                        <p className="font-bold text-primary text-lg">{quest.nftBadge.points}</p>
+                        <p className="font-bold text-primary text-base sm:text-lg">{quest.nftBadge.points}</p>
                     </div>
                 </div>
 
                 {quest.progress !== undefined && quest.progress > 0 && (
-                     <div style={{ fontFamily: "helvetica" }} className="mt-auto mb-4">
+                     <div style={{ fontFamily: "helvetica" }} className="mt-auto mb-3 sm:mb-4">
                         <div className="flex justify-between text-xs text-secondary mb-1">
                             <span>Progress</span>
                             <span>{quest.progress}%</span>
@@ -121,12 +121,12 @@ const QuestCard: React.FC<QuestCardProps> = ({ quest, index, isVisible, onJoin, 
                 <div className="flex-grow"></div>
                 
                 <div style={{ fontFamily: "helvetica" }} className="flex justify-between items-center mt-auto">
-                    <span className="text-secondary text-sm">Participants: <span className="font-bold text-primary">{quest.participants}</span></span>
+                    <span className="text-secondary text-xs sm:text-sm">Participants: <span className="font-bold text-primary">{quest.participants}</span></span>
                      <Tooltip content={buttonTooltip}>
                         <button 
                             onClick={handleButtonClick}
                             disabled={buttonDisabled}
-                            className={`px-4 py-2 font-bold rounded-lg text-sm transition-all duration-300 transform focus:outline-none focus:ring-4 focus:ring-accent/50 ${
+                            className={`px-3 py-1.5 sm:px-4 sm:py-2 font-bold rounded-lg text-xs sm:text-sm transition-all duration-300 transform focus:outline-none focus:ring-4 focus:ring-accent/50 ${
                                 buttonDisabled 
                                 ? 'bg-surface text-secondary cursor-not-allowed' 
                                 : buttonText === 'Continue'
