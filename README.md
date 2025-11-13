@@ -1,4 +1,5 @@
 🏆 Legend - Web3 Quest Platform
+frontend deployment: https://legendx-ten.vercel.app/
 
 https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80
 🚀 What is Legend?
